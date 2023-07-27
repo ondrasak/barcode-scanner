@@ -190,7 +190,7 @@ export class BarcodeScannerWeb extends WebPlugin implements BarcodeScannerPlugin
       await navigator.mediaDevices
         .getUserMedia({
           audio: false,
-          video: true,
+          video: this._facingMode,
         })
         .then((stream: MediaStream) => {
           // Stop any existing stream so we can request media with different constraints based on user input
