@@ -21,7 +21,6 @@ export class BarcodeScannerWeb extends WebPlugin implements BarcodeScannerPlugin
   private _controls: IScannerControls | null = null;
   private _torchState = false;
   private _video: HTMLVideoElement | null = null;
-  private _options: ScanOptions | null = null;
   private _backgroundColor: string | null = null;
   private _facingMode: MediaTrackConstraints = BarcodeScannerWeb._BACK;
 
@@ -42,7 +41,6 @@ export class BarcodeScannerWeb extends WebPlugin implements BarcodeScannerPlugin
   }
 
   async startScan(_options: ScanOptions): Promise<ScanResult> {
-    this._options = _options;
     this._formats = [];
     _options?.targetedFormats?.forEach((format) => {
       const formatIndex = Object.keys(BarcodeFormat).indexOf(format);
@@ -211,15 +209,7 @@ export class BarcodeScannerWeb extends WebPlugin implements BarcodeScannerPlugin
         );
         this._video = document.createElement('video');
         this._video.id = 'video';
-        // Don't flip video feed if camera is rear facing
-        if (this._options?.cameraDirection !== CameraDirection.BACK) {
-          this._video.setAttribute(
-            'style',
-            '-webkit-transform: scaleX(-1); transform: scaleX(-1); width:100%; height: 100%;'
-          );
-        } else {
-          this._video.setAttribute('style', 'width:100%; height: 100%;');
-        }
+        this._video.setAttribute('style', 'width:100%; height: 100%;');
 
         const userAgent = navigator.userAgent.toLowerCase();
         const isSafari = userAgent.includes('safari') && !userAgent.includes('chrome');
