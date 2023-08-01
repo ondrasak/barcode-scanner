@@ -256,7 +256,7 @@ export class BarcodeScannerWeb extends WebPlugin implements BarcodeScannerPlugin
       this._video.pause();
 
       const st: any = this._video.srcObject;
-      const tracks = st.getTracks();
+      const tracks = st?.getTracks() ?? [];
 
       for (var i = 0; i < tracks.length; i++) {
         var track = tracks[i];
